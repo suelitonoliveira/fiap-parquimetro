@@ -21,6 +21,7 @@ public class Pagamento {
 
     @Column(nullable = false)
     private BigDecimal valor;
+
     @Column(name = "data_pagamento", nullable = false)
     private LocalDateTime dataPagamento;
 

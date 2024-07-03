@@ -13,13 +13,17 @@ public class Condutor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String nome;
+
     @Column(nullable = false, unique = true)
     private String cpf;
+
     @Column(nullable = false)
     @Email
     private String email;
+
     @Column(nullable = false)
     private String telefone;
 
