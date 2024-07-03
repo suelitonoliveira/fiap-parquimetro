@@ -1,6 +1,6 @@
 package com.fiap.parquimetro.entities;
 
-import com.fiap.parquimetro.entities.enums.StatusPagamento;
+import com.fiap.parquimetro.enums.StatusPagamento;
 import jakarta.persistence.*;
 import lombok.Data;
 

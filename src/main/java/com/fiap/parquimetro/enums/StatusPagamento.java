@@ -1,4 +1,4 @@
-package com.fiap.parquimetro.entities.enums;
+package com.fiap.parquimetro.enums;
 
 public enum StatusPagamento {
     PENDENTE,
