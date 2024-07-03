@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-public class parquimetro {
+public class Parquimetro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
