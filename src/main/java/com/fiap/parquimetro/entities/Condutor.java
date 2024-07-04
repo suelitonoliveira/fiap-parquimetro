@@ -17,6 +17,8 @@ public class Condutor {
     @Column(nullable = false)
     private String nome;
 
+    @ManyToOne
+    @JoinColumn(name = "endereco_id", nullable = false)
     private Endereco endereco;
 
     @Column(nullable = false, unique = true)
