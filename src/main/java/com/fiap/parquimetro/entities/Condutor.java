@@ -17,6 +17,8 @@ public class Condutor {
     @Column(nullable = false)
     private String nome;
 
+    private Endereco endereco;
+
     @Column(nullable = false, unique = true)
     private String cpf;
 
