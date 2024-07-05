@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "parquimetro")
+@Table(name = "parquimetro", schema = "parquimetro")
 @Data
 public class Parquimetro {
 

@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="pagamentos")
+@Table(name="pagamentos", schema = "parquimetro")
 @Data
 public class Pagamento {
     @Id
