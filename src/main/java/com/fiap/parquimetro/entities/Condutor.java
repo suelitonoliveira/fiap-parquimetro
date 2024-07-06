@@ -12,7 +12,7 @@ import java.util.List;
 public class Condutor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idCondutor;
 
     @Column(nullable = false)
     private String nome;
