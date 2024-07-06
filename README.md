@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <h1 align="center">🌟 SISTEMA DE PARQUÍMETRO  🌟</h1>
 
 <h2>📋 SUMÁRIO</h2>
