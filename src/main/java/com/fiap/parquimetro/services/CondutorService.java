@@ -28,6 +28,13 @@ public class CondutorService {
         return condutorOptional.orElse(null);
     }
 
+    public Condutor atualizarCondutor(Long idCondutor, Condutor condutor) {
+        condutor = condutorRepository.findById(idCondutor)
+                .orElseThrow(() -> new IllegalArgumentException("Condutor não encontrado"));
+        return condutorRepository.save(condutor);
+    }
+
+
 }
 
 
