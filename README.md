@@ -51,6 +51,8 @@ spring.flyway.password=123456
 ## 📖 Documentação-API
 
 foi realizado a hospedagem no azure segue link do swagger:
+//link local
+http://localhost:8080/fiap-parquimetro/swagger-ui/index.html#/
 
 - Segue o link do miro aonde mostramos todo os fluxos https://miro.com/app/board/uXjVKRr033s=/
 - Collection postman:
