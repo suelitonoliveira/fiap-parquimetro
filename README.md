@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <h1 align="center">🌟 SISTEMA DE PARQUÍMETRO  🌟</h1>
 
 <h2>📋 SUMÁRIO</h2>
@@ -66,3 +67,13 @@ foi realizado a hospedagem no azure segue link do swagger:
 - VALTER NETTO
 
 - SUELITON DE OLIVEIRA 
+=======
+# fiap-parquimetro
+
+📖 Acesso ao banco de dados
+
+spring.flyway.url=jdbc:postgresql://localhost:5432/parquimetroBD  
+spring.flyway.user=postgres  
+spring.flyway.password=123456  
+
+>>>>>>> 1d3945f7f737a0d6111c2d780ff7b956d5eb325b
