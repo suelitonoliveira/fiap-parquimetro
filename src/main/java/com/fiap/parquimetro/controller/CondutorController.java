@@ -24,21 +24,27 @@ public class CondutorController {
         this.condutorRepository = condutorRepository;
     }
 
-    @Operation(summary= "Lista todos os condutores", tags = "Condutor")
+    @Operation(summary = "Lista todos os condutores", tags = "Condutor")
     @GetMapping
     public ResponseEntity<List<Condutor>> listarTodos() {
         List<Condutor> condutors = this.condutorService.listarTodos();
         return ResponseEntity.ok(condutors);
     }
-    @Operation(summary= "Cadastra Novo Condutor", tags = "Condutor")
+
+    @Operation(summary = "Cadastra Novo Condutor", tags = "Condutor")
     @PostMapping
     public ResponseEntity<Condutor> cadastrarCondutor(@RequestBody Condutor condutor) {
         if (condutor.getEndereco() == null) {
             return ResponseEntity.badRequest().body(null);
         }
         Condutor cadastrarCondutor = condutorService.cadastrarCondutor(condutor);
-
         return ResponseEntity.ok(cadastrarCondutor);
+    }
+    @Operation(summary = "Lista Condutor por Id", tags = "Condutor")
+    @GetMapping("/{codigoCondutor}")
+    public ResponseEntity<Condutor> listarCondutorPorId(@PathVariable Long codigoCondutor){
+        var condutor = condutorService.listarCondutorPorId(codigoCondutor);
+        return ResponseEntity.ok(condutor);
     }
 
 }
