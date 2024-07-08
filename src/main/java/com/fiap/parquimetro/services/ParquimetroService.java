@@ -1,6 +1,7 @@
 package com.fiap.parquimetro.services;
 
 import com.fiap.parquimetro.dto.ParquimetroDTO;
+import com.fiap.parquimetro.dto.UsuarioDTO;
 import com.fiap.parquimetro.entities.Parquimetro;
 import com.fiap.parquimetro.entities.Usuario;
 import com.fiap.parquimetro.mapper.ParquimetroMapper;
@@ -18,7 +19,7 @@ public class ParquimetroService {
 
     @Transactional(rollbackOn = Exception.class)
     public ParquimetroDTO salvar(ParquimetroDTO parquimetroDTO) {
-        Usuario usuario = usuarioService.buscaUsuarioPorId(parquimetroDTO.getId());
+        UsuarioDTO usuario = usuarioService.buscaUsuarioPorId(parquimetroDTO.getId());
         Parquimetro parquimetroSalvo = parquimetroRepository.save(ParquimetroMapper.toEntity(parquimetroDTO, usuario));
         return ParquimetroMapper.toDTO(parquimetroSalvo);
     }

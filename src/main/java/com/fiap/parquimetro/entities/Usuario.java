@@ -1,5 +1,6 @@
 package com.fiap.parquimetro.entities;
 
+import com.fiap.parquimetro.dto.UsuarioDTO;
 import com.fiap.parquimetro.enums.TipoUsuario;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -41,4 +42,30 @@ public class Usuario extends Auditoria {
     public TipoUsuario tipoUsuario;
 
 
+
+    public static Usuario toEntity(UsuarioDTO dto) {
+        Usuario usuario = new Usuario();
+        usuario.setId(dto.getId());
+        usuario.setNome(dto.getNome());
+        usuario.setEmail(dto.getEmail());
+        usuario.setEndereco(dto.getEndereco());
+        usuario.setCpf(dto.getCpf());
+        usuario.setTelefone(dto.getTelefone());
+        usuario.setVeiculos(dto.getVeiculos());
+        usuario.setTipoUsuario(dto.getTipoUsuario());
+        return usuario;
+    }
+
+    public static UsuarioDTO toDTO(Usuario entity) {
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setId(entity.getId());
+        dto.setNome(entity.getNome());
+        dto.setEmail(entity.getEmail());
+        dto.setEndereco(entity.getEndereco());
+        dto.setCpf(entity.getCpf());
+        dto.setTelefone(entity.getTelefone());
+        dto.setVeiculos(entity.getVeiculos());
+        dto.setTipoUsuario(entity.getTipoUsuario());
+        return dto;
+    }
 }

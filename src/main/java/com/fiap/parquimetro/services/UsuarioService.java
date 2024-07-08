@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,30 +23,43 @@ public class UsuarioService {
 
     private final EnderecoRepository enderecoRepository;
 
-    public List<Usuario> listarTodos() {
-        return this.usuarioRepository.findAll();
+    public List<UsuarioDTO> listarTodos() {
+        List<Usuario> usuarios = this.usuarioRepository.findAll();
+        return usuarios.stream().map(Usuario::toDTO).collect(Collectors.toList());
     }
 
     @Transactional
     public UsuarioDTO salvar(UsuarioDTO usuarioDTO) {
         Endereco endereco = usuarioDTO.getEndereco();
         enderecoRepository.save(endereco);
-        Usuario usuario = UsuarioDTO.toEntity(usuarioDTO);
+        Usuario usuario = Usuario.toEntity(usuarioDTO);
         Usuario savedUsuario = usuarioRepository.save(usuario);
-        return UsuarioDTO.toDTO(savedUsuario);
+        return savedUsuario.toDTO(savedUsuario);
     }
 
-    public Usuario buscaUsuarioPorId(Long codUsuario) {
-        return this.usuarioRepository.findById(codUsuario)
-                .orElseThrow(() -> new RecursoNaoEncontradoException(String.format("Usuario com cod:%d não encontrado", codUsuario)));
+    public UsuarioDTO buscaUsuarioPorId(Long id) {
+        return this.usuarioRepository.findById(id)
+                .map(Usuario::toDTO)
+                .orElseThrow(() -> new RecursoNaoEncontradoException(String.format("Usuario com cod:%d não encontrado", id)));
     }
 
-    public Usuario atualizarUsuario(Long id, Usuario usuario) {
-        usuario = usuarioRepository.findById(id)
+    public UsuarioDTO atualizarUsuario(Long id, UsuarioDTO usuarioDTO) {
+        Usuario usuarioExistente = usuarioRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario não encontrado"));
-        return usuarioRepository.save(usuario);
+        usuarioExistente.setNome(usuarioDTO.getNome());
+        usuarioExistente.setEndereco(usuarioDTO.getEndereco());
+        usuarioExistente.setCpf(usuarioDTO.getCpf());
+        usuarioExistente.setEmail(usuarioDTO.getEmail());
+        usuarioExistente.setTelefone(usuarioDTO.getTelefone());
+        usuarioExistente.setTipoUsuario(usuarioDTO.getTipoUsuario());
+        Usuario updatedUsuario = usuarioRepository.save(usuarioExistente);
+        return updatedUsuario.toDTO(updatedUsuario);
     }
 
+
+    public void deletaUsuario(Long id){
+        usuarioRepository.deleteById(id);
+    }
 
 }
 

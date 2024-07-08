@@ -1,6 +1,7 @@
 package com.fiap.parquimetro.mapper;
 
 import com.fiap.parquimetro.dto.ParquimetroDTO;
+import com.fiap.parquimetro.dto.UsuarioDTO;
 import com.fiap.parquimetro.entities.Parquimetro;
 import com.fiap.parquimetro.entities.Usuario;
 
@@ -8,7 +9,8 @@ import java.util.Objects;
 
 public class ParquimetroMapper {
 
-    public static Parquimetro toEntity(ParquimetroDTO parquimetroDTO, Usuario usuario) {
+    public static Parquimetro toEntity(ParquimetroDTO parquimetroDTO, UsuarioDTO usuarioDTO) {
+        Usuario usuario = Usuario.toEntity(usuarioDTO);
         return Parquimetro
                 .builder()
                 .id(Objects.nonNull(parquimetroDTO.getId()) ? parquimetroDTO.getId() : null)
