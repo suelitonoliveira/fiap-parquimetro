@@ -8,16 +8,17 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="pagamentos", schema = "parquimetro")
+@Table(name="tb_pagamento", schema = "parquimetro")
 @Data
-public class Pagamento {
+public class Pagamento extends Auditoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "COD")
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "sessao_id", nullable = false)
-    private Sessao sessao;
+    private Secao secao;
 
     @Column(nullable = false)
     private BigDecimal valor;

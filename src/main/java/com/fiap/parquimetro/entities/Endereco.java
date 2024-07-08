@@ -4,29 +4,30 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name="endereco", schema = "parquimetro")
+@Table(name = "tb_endereco", schema = "parquimetro")
 @Data
-public class Endereco {
+public class Endereco extends Auditoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "COD")
     private Long id;
 
-    @Column(name = "logradouro", length = 100)
+    @Column(name = "LOGRADOURO", nullable = false, length = 100)
     private String logradouro;
 
-    @Column(name = "numero")
+    @Column(name = "NUMERO", nullable = false, length = 10)
     private Integer numero;
 
-    @Column(name = "complemento", length = 50)
+    @Column(name = "COMPLEMENTO", nullable = false, length = 50)
     private String complemento;
 
-    @Column(name = "cidade", length = 50)
+    @Column(name = "CIDADE", nullable = false, length = 50)
     private String cidade;
 
-    @Column(name = "estado", length = 2)
+    @Column(name = "ESTADO", nullable = false, length = 2)
     private String estado;
 
-    @Column(name = "cep", length = 8)
+    @Column(name = "CEP", nullable = false, length = 8)
     private String cep;
 
 

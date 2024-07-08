@@ -1,24 +1,27 @@
 package com.fiap.parquimetro.entities;
 
+import com.fiap.parquimetro.enums.TipoNotificacao;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "notificacoes", schema = "parquimetro")
+@Table(name = "tb_notificacao", schema = "parquimetro")
 @Data
-public class Notificacao {
+public class Notificacao extends Auditoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "COD")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "sessao_id", nullable = false)
-    private Sessao sessao;
+    @JoinColumn(name = "SECAO_ID", nullable = false)
+    private Secao secao;
 
-    @Column(nullable = false)
-    private String tipo;
+    @Column(name = "TIPO_NOTIFICACAO", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TipoNotificacao tipoNotificacao = TipoNotificacao.EMAIL;
 
     @Column(nullable = false)
     private String mensagem;

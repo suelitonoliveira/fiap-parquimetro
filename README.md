@@ -68,13 +68,4 @@ http://localhost:8080/fiap-parquimetro/swagger-ui/index.html#/
 - VALTER NETTO
 
 - SUELITON DE OLIVEIRA 
-=======
-# fiap-parquimetro
 
-📖 Acesso ao banco de dados
-
-spring.flyway.url=jdbc:postgresql://localhost:5432/parquimetroBD  
-spring.flyway.user=postgres  
-spring.flyway.password=123456  
-
->>>>>>> 1d3945f7f737a0d6111c2d780ff7b956d5eb325b
