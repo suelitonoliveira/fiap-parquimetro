@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name="tb_secao", schema = "parquimetro")
-public class Secao extends Auditoria {
+public class Sessao extends Auditoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "COD")

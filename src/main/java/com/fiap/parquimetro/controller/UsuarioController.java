@@ -23,7 +23,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarios);
     }
 
-    @Operation(summary = "Cadastra Novo Usuário do Tipo Condutor", tags = "Usuário")
+    @Operation(summary = "Cadastra Novo Usuário", tags = "Usuário")
     @PostMapping
     public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
         if (usuario.getEndereco() == null) {

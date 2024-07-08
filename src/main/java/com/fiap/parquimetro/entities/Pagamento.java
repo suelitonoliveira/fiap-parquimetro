@@ -18,7 +18,7 @@ public class Pagamento extends Auditoria {
 
     @ManyToOne
     @JoinColumn(name = "sessao_id", nullable = false)
-    private Secao secao;
+    private Sessao sessao;
 
     @Column(nullable = false)
     private BigDecimal valor;

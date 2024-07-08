@@ -17,7 +17,7 @@ public class Recibo extends Auditoria{
 
     @ManyToOne
     @JoinColumn(name = "sessao_id", nullable = false)
-    private Secao secao;
+    private Sessao sessao;
 
     @Column(name = "tempo_estacionado", nullable = false)
     private String tempoEstacionado;

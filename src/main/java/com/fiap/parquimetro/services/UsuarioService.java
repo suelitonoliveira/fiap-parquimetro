@@ -37,9 +37,9 @@ public class UsuarioService {
                 .orElseThrow(() -> new RecursoNaoEncontradoException(String.format("Usuario com cod:%d não encontrado", codUsuario)));
     }
 
-    public Usuario atualizarCondutor(Long idCondutor, Usuario usuario) {
-        usuario = usuarioRepository.findById(idCondutor)
-                .orElseThrow(() -> new IllegalArgumentException("Condutor não encontrado"));
+    public Usuario atualizarUsuario(Long id, Usuario usuario) {
+        usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario não encontrado"));
         return usuarioRepository.save(usuario);
     }
 

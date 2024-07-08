@@ -17,7 +17,7 @@ public class Notificacao extends Auditoria {
 
     @ManyToOne
     @JoinColumn(name = "SECAO_ID", nullable = false)
-    private Secao secao;
+    private Sessao sessao;
 
     @Column(name = "TIPO_NOTIFICACAO", nullable = false)
     @Enumerated(EnumType.STRING)
