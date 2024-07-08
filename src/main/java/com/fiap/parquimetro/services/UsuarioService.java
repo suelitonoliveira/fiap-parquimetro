@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,24 +45,46 @@ public class UsuarioService {
                 .orElseThrow(() -> new RecursoNaoEncontradoException(String.format("Usuario com cod:%d não encontrado", id)));
     }
 
+    @Transactional
     public UsuarioDTO atualizarUsuario(Long id, UsuarioDTO usuarioDTO) {
-        Usuario usuarioExistente = usuarioRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Usuario não encontrado"));
-        usuarioExistente.setNome(usuarioDTO.getNome());
-        usuarioExistente.setEndereco(usuarioDTO.getEndereco());
-        usuarioExistente.setCpf(usuarioDTO.getCpf());
-        usuarioExistente.setEmail(usuarioDTO.getEmail());
-        usuarioExistente.setTelefone(usuarioDTO.getTelefone());
-        usuarioExistente.setTipoUsuario(usuarioDTO.getTipoUsuario());
-        Usuario updatedUsuario = usuarioRepository.save(usuarioExistente);
-        return updatedUsuario.toDTO(updatedUsuario);
+        // Carregar o usuário existente do banco de dados
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        // Atualizar os campos do usuário com base no DTO
+        usuario.setNome(usuarioDTO.getNome());
+        usuario.setEmail(usuarioDTO.getEmail());
+        usuario.setCpf(usuarioDTO.getCpf());
+        usuario.setTelefone(usuarioDTO.getTelefone());
+        usuario.setVeiculos(usuarioDTO.getVeiculos());
+        usuario.setTipoUsuario(usuarioDTO.getTipoUsuario());
+
+        Endereco endereco = enderecoRepository.findById(usuarioDTO.getEndereco().getId())
+                .orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
+
+        endereco.setLogradouro(usuarioDTO.getEndereco().getLogradouro());
+        endereco.setNumero(usuarioDTO.getEndereco().getNumero());
+        endereco.setComplemento(usuarioDTO.getEndereco().getComplemento());
+        endereco.setCidade(usuarioDTO.getEndereco().getCidade());
+        endereco.setEstado(usuarioDTO.getEndereco().getEstado());
+        endereco.setCep(usuarioDTO.getEndereco().getCep());
+
+
+        usuario.setEndereco(endereco);
+        usuario.setDataDeAlteracao(LocalDateTime.now());
+
+        Usuario savedUsuario = usuarioRepository.save(usuario);
+        return Usuario.toDTO(savedUsuario);
     }
 
-
-    public void deletaUsuario(Long id){
+    public void deletaUsuario(Long id) {
         usuarioRepository.deleteById(id);
     }
 
 }
+
+
+
+
 
 

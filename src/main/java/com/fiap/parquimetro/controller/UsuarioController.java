@@ -43,6 +43,14 @@ public class UsuarioController {
         return ResponseEntity.ok(cadastrarUsuario);
     }
 
+
+    @Operation(summary = "Atualiza Usuario existente", tags = "Usuário")
+    @PutMapping("/{id}")
+    public ResponseEntity<UsuarioDTO> atualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
+        UsuarioDTO updatedUsuario = usuarioService.atualizarUsuario(id, usuarioDTO);
+        return ResponseEntity.ok(updatedUsuario);
+    }
+
     @Operation(summary = "Deleta o Usuario passando o ID", tags = "Usuário")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletaUsuario(@PathVariable Long id) {
