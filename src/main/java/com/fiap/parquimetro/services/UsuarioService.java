@@ -1,5 +1,6 @@
 package com.fiap.parquimetro.services;
 
+import com.fiap.parquimetro.dto.UsuarioDTO;
 import com.fiap.parquimetro.entities.Usuario;
 import com.fiap.parquimetro.entities.Endereco;
 import com.fiap.parquimetro.exceptions.RecursoNaoEncontradoException;
@@ -26,10 +27,12 @@ public class UsuarioService {
     }
 
     @Transactional
-    public Usuario salvar(Usuario usuario) {
-        Endereco endereco = usuario.getEndereco();
+    public UsuarioDTO salvar(UsuarioDTO usuarioDTO) {
+        Endereco endereco = usuarioDTO.getEndereco();
         enderecoRepository.save(endereco);
-        return this.usuarioRepository.save(usuario);
+        Usuario usuario = UsuarioDTO.toEntity(usuarioDTO);
+        Usuario savedUsuario = usuarioRepository.save(usuario);
+        return UsuarioDTO.toDTO(savedUsuario);
     }
 
     public Usuario buscaUsuarioPorId(Long codUsuario) {
