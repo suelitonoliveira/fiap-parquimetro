@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 public class UsuarioDTO {
 
-    private Long id;
+    private Long usuarioId;
 
     private String nome;
     @NotBlank(message = "Campo Endereco obrigatório")

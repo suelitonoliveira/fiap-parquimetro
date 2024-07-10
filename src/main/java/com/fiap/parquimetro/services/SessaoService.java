@@ -26,7 +26,7 @@ public class SessaoService {
     private PagamentoRepository pagamentoRepository;
 
 
-    public Sessao iniciarSessao(Long usuarioId, Long parquimetroId) {
+    public Sessao iniciarSessao(Long usuarioId, Long id) {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
 
@@ -34,11 +34,11 @@ public class SessaoService {
             throw new RuntimeException("Usuario não é do tipo condutor");
         }
 
-        Parquimetro parquimetro = parquimetroRepository.findById(parquimetroId)
+        Parquimetro parquimetro = parquimetroRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Parquimetro não encontrado"));
 
-        boolean pagamentoEfetuado = pagamentoRepository.existsByUsuarioIdAndParquimetroIdAndStatus(
-                usuarioId, parquimetroId, StatusPagamento.PAGO);
+        boolean pagamentoEfetuado = pagamentoRepository.existsBySessao_Usuario_UsuarioIdAndSessao_Parquimetro_IdAndStatusPagamento(
+                usuarioId, id, StatusPagamento.PAGO);
 
         if (!pagamentoEfetuado) {
             throw new RuntimeException("Pagamento não efetuado");

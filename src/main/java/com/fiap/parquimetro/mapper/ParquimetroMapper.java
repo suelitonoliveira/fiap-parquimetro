@@ -26,7 +26,7 @@ public class ParquimetroMapper {
                 .id(parquimetroSalvo.getId())
                 .modelo(parquimetroSalvo.getModelo())
                 .numeroSerie(parquimetroSalvo.getNumeroSerie())
-                .codUsuario(parquimetroSalvo.getUsuario().getId())
+                .codUsuario(parquimetroSalvo.getUsuario().getUsuarioId())
                 .build();
     }
 }

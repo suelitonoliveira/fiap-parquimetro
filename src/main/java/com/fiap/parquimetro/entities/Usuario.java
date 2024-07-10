@@ -15,7 +15,7 @@ public class Usuario extends Auditoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "COD")
-    private Long id;
+    private Long usuarioId;
 
     @Column(name = "NOME", nullable = false)
     private String nome;
@@ -45,7 +45,7 @@ public class Usuario extends Auditoria {
 
     public static Usuario toEntity(UsuarioDTO dto) {
         Usuario usuario = new Usuario();
-        usuario.setId(dto.getId());
+        usuario.setUsuarioId(dto.getUsuarioId());
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
         usuario.setEndereco(dto.getEndereco());
@@ -58,7 +58,7 @@ public class Usuario extends Auditoria {
 
     public static UsuarioDTO toDTO(Usuario entity) {
         UsuarioDTO dto = new UsuarioDTO();
-        dto.setId(entity.getId());
+        dto.setUsuarioId(entity.getUsuarioId());
         dto.setNome(entity.getNome());
         dto.setEmail(entity.getEmail());
         dto.setEndereco(entity.getEndereco());

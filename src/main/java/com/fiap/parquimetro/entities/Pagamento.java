@@ -14,7 +14,7 @@ public class Pagamento extends Auditoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "COD")
-    private Long id;
+    private Long pagamentoId;
 
     @ManyToOne
     @JoinColumn(name = "sessao_id", nullable = false)

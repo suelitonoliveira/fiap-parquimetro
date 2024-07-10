@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PagamentoRepository extends JpaRepository<Pagamento, Long> {
-    boolean existsByUsuarioIdAndParquimetroIdAndStatus(Long usuarioId, Long parquimetroId, StatusPagamento status);
+    boolean existsBySessao_Usuario_UsuarioIdAndSessao_Parquimetro_IdAndStatusPagamento(Long usuarioId, Long parquimetroId, StatusPagamento status);
 }
