@@ -19,12 +19,12 @@ public class ParquimetroController {
 
     private final ParquimetroService parquimetroService;
 
-//    @Operation(summary = "Lista todos os parquímetro", tags = "Parquímetro")
-//    @GetMapping
-//    public ResponseEntity<List<Usuario>> listarTodos() {
-//        List<Usuario> usuarios = this.parquimetroService.listarTodos();
-//        return ResponseEntity.ok(usuarios);
-//    }
+    @Operation(summary = "Lista todos os parquímetro", tags = "Parquímetro")
+    @GetMapping
+    public ResponseEntity<List<ParquimetroDTO>> listarTodos() {
+        List<ParquimetroDTO> listaParquimetro= this.parquimetroService.listarTodos();
+        return ResponseEntity.ok(listaParquimetro);
+    }
 
     @Operation(summary = "Cadastrar Novo parquímetro", tags = "Parquímetro")
     @PostMapping

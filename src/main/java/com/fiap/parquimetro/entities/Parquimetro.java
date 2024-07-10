@@ -5,12 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 
 @Entity
 @Table(name = "tb_parquimetro", schema = "parquimetro")
 @Data
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Parquimetro extends Auditoria {
@@ -20,7 +21,7 @@ public class Parquimetro extends Auditoria {
     @Column(name = "COD")
     private Long id;
 
-    @Column(name = "NUMERO_SERIE", nullable = false)
+    @Column(name = "NUMERO_SERIE", nullable = false, unique = true)
     private String numeroSerie;
 
     @Column(name = "MODELO", nullable = false)

@@ -1,19 +1,18 @@
 package com.fiap.parquimetro.services;
 
 import com.fiap.parquimetro.dto.UsuarioDTO;
-import com.fiap.parquimetro.entities.Usuario;
 import com.fiap.parquimetro.entities.Endereco;
+import com.fiap.parquimetro.entities.Usuario;
 import com.fiap.parquimetro.exceptions.RecursoNaoEncontradoException;
-import com.fiap.parquimetro.repositories.UsuarioRepository;
+import com.fiap.parquimetro.mapper.UsuarioMapper;
 import com.fiap.parquimetro.repositories.EnderecoRepository;
+import com.fiap.parquimetro.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,21 +26,21 @@ public class UsuarioService {
 
     public List<UsuarioDTO> listarTodos() {
         List<Usuario> usuarios = this.usuarioRepository.findAll();
-        return usuarios.stream().map(Usuario::toDTO).collect(Collectors.toList());
+        return usuarios.stream().map(UsuarioMapper::toDTO).collect(Collectors.toList());
     }
 
     @Transactional
     public UsuarioDTO salvar(UsuarioDTO usuarioDTO) {
         Endereco endereco = usuarioDTO.getEndereco();
         enderecoRepository.save(endereco);
-        Usuario usuario = Usuario.toEntity(usuarioDTO);
+        Usuario usuario = UsuarioMapper.toEntity(usuarioDTO);
         Usuario savedUsuario = usuarioRepository.save(usuario);
-        return savedUsuario.toDTO(savedUsuario);
+        return UsuarioMapper.toDTO(savedUsuario);
     }
 
     public UsuarioDTO buscaUsuarioPorId(Long id) {
         return this.usuarioRepository.findById(id)
-                .map(Usuario::toDTO)
+                .map(UsuarioMapper::toDTO)
                 .orElseThrow(() -> new RecursoNaoEncontradoException(String.format("Usuario com cod:%d não encontrado", id)));
     }
 
@@ -74,7 +73,7 @@ public class UsuarioService {
         usuario.setDataDeAlteracao(LocalDateTime.now());
 
         Usuario savedUsuario = usuarioRepository.save(usuario);
-        return Usuario.toDTO(savedUsuario);
+        return UsuarioMapper.toDTO(savedUsuario);
     }
 
     public void deletaUsuario(Long id) {

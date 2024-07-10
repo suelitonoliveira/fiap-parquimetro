@@ -10,10 +10,9 @@ import java.util.Objects;
 public class ParquimetroMapper {
 
     public static Parquimetro toEntity(ParquimetroDTO parquimetroDTO, UsuarioDTO usuarioDTO) {
-        Usuario usuario = Usuario.toEntity(usuarioDTO);
+        Usuario usuario = UsuarioMapper.toEntity(usuarioDTO);
         return Parquimetro
                 .builder()
-                .id(Objects.nonNull(parquimetroDTO.getId()) ? parquimetroDTO.getId() : null)
                 .modelo(parquimetroDTO.getModelo())
                 .numeroSerie(parquimetroDTO.getNumeroSerie())
                 .usuario(usuario)
@@ -28,5 +27,18 @@ public class ParquimetroMapper {
                 .numeroSerie(parquimetroSalvo.getNumeroSerie())
                 .codUsuario(parquimetroSalvo.getUsuario().getUsuarioId())
                 .build();
+    }
+
+    public static Parquimetro updateEntity(Parquimetro parquimetroExistente, ParquimetroDTO parquimetroDTO, UsuarioDTO usuarioDTO) {
+        Usuario usuario = UsuarioMapper.toEntity(usuarioDTO);
+        return Parquimetro
+                .builder()
+                .id(parquimetroExistente.getId())
+                .modelo(Objects.nonNull(parquimetroDTO.getModelo()) ? parquimetroDTO.getModelo() : parquimetroExistente.getModelo())
+                .numeroSerie(parquimetroDTO.getNumeroSerie())
+                .usuario(usuario)
+                .dataDeInclusao(parquimetroExistente.getDataDeInclusao())
+                .build();
+
     }
 }
