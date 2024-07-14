@@ -38,7 +38,7 @@ public class SessaoService {
     }
 
 
-    public Sessao iniciarSessao(Long usuarioId, Long id, PagamentoDTO pagamentoDTO) {
+    public Sessao iniciarSessao(Long usuarioId, Long id) {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
 
@@ -49,22 +49,31 @@ public class SessaoService {
         Parquimetro parquimetro = parquimetroRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Parquimetro não encontrado"));
 
-        pagamentoDTO.setCodUsuario(usuarioId);
-        PagamentoDTO pagamentoRealizado = pagamentoService.realizarPagamento(pagamentoDTO);
+        Sessao sessao = new Sessao();
+        sessao.setUsuario(usuario);
+        sessao.setParquimetro(parquimetro);
+        sessao.setInicioSessao(LocalDateTime.now());
+        sessao.setStatusPagamento(StatusPagamento.PENDENTE);
 
-        Pagamento pagamento = pagamentoRepository.findById(pagamentoRealizado.getId())
-                .orElseThrow(() -> new RuntimeException("Pagamento não encontrado"));
+        Sessao sessaoSalva = sessaoRepository.save(sessao);
 
-        if (pagamento.getStatusPagamento().equals(StatusPagamento.PAGO)) {
-            Sessao sessao = new Sessao();
-            sessao.setUsuario(usuario);
-            sessao.setParquimetro(parquimetro);
-            sessao.setInicioSessao(LocalDateTime.now());
+        return sessaoSalva;
+    }
+
+    public void consultarPagamento(Long sessaoId) {
+        Sessao sessao = sessaoRepository.findById(sessaoId)
+                .orElseThrow(() -> new RuntimeException("Sessão não encontrada"));
+
+        Pagamento pagamentoExiste = pagamentoRepository.findBySessao(sessao)
+                .orElse(null);
+
+
+        if (pagamentoExiste != null && pagamentoExiste.getStatusPagamento().equals(StatusPagamento.PAGO)) {
             sessao.setStatusPagamento(StatusPagamento.PAGO);
-
-            return sessaoRepository.save(sessao);
+            sessaoRepository.save(sessao);
         } else {
-            throw new RuntimeException("Pagamento não realizado com sucesso");
+            throw new RuntimeException("Pagamento não realizado");
         }
+
     }
 }

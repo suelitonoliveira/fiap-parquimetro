@@ -44,7 +44,7 @@ public class UsuarioController {
     }
 
 
-    @Operation(summary = "Atualiza Usuario existente", tags = "Usuário")
+    /*@Operation(summary = "Atualiza Usuario existente", tags = "Usuário")
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioDTO> atualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
         UsuarioDTO updatedUsuario = usuarioService.atualizarUsuario(id, usuarioDTO);
@@ -56,6 +56,6 @@ public class UsuarioController {
     public ResponseEntity<Void> deletaUsuario(@PathVariable Long id) {
         usuarioService.deletaUsuario(id);
         return ResponseEntity.noContent().build();
-    }
+    }*/
 
 }

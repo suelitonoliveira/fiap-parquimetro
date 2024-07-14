@@ -44,7 +44,7 @@ public class UsuarioService {
                 .orElseThrow(() -> new RecursoNaoEncontradoException(String.format("Usuario com cod:%d não encontrado", id)));
     }
 
-    @Transactional
+  /*  @Transactional
     public UsuarioDTO atualizarUsuario(Long id, UsuarioDTO usuarioDTO) {
         // Carregar o usuário existente do banco de dados
         Usuario usuario = usuarioRepository.findById(id)
@@ -74,11 +74,11 @@ public class UsuarioService {
 
         Usuario savedUsuario = usuarioRepository.save(usuario);
         return UsuarioMapper.toDTO(savedUsuario);
-    }
+    }*/
 
-    public void deletaUsuario(Long id) {
+/*    public void deletaUsuario(Long id) {
         usuarioRepository.deleteById(id);
-    }
+    }*/
 
 }
 
