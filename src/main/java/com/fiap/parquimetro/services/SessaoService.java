@@ -1,79 +1,73 @@
 package com.fiap.parquimetro.services;
 
-import com.fiap.parquimetro.dto.PagamentoDTO;
-import com.fiap.parquimetro.entities.Pagamento;
+import com.fiap.parquimetro.dto.SessaoDTO;
 import com.fiap.parquimetro.entities.Parquimetro;
 import com.fiap.parquimetro.entities.Sessao;
 import com.fiap.parquimetro.entities.Usuario;
 import com.fiap.parquimetro.enums.StatusPagamento;
 import com.fiap.parquimetro.enums.TipoUsuario;
-import com.fiap.parquimetro.repositories.PagamentoRepository;
+import com.fiap.parquimetro.mapper.SessaoMapper;
 import com.fiap.parquimetro.repositories.ParquimetroRepository;
 import com.fiap.parquimetro.repositories.SessaoRepository;
 import com.fiap.parquimetro.repositories.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SessaoService {
-    @Autowired
-    private SessaoRepository sessaoRepository;
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
-    private ParquimetroRepository parquimetroRepository;
-    @Autowired
-    private PagamentoService pagamentoService;
-    @Autowired
-    private PagamentoRepository pagamentoRepository;
 
-    public SessaoService(UsuarioRepository usuarioRepository, ParquimetroRepository parquimetroRepository,
-                         SessaoRepository sessaoRepository, PagamentoService pagamentoService) {
-        this.usuarioRepository = usuarioRepository;
-        this.parquimetroRepository = parquimetroRepository;
-        this.sessaoRepository = sessaoRepository;
-        this.pagamentoService = pagamentoService;
+    private final SessaoRepository sessaoRepository;
+
+    private final UsuarioRepository usuarioRepository;
+
+    private final ParquimetroRepository parquimetroRepository;
+
+
+    public List<SessaoDTO> listar(Boolean expiradas, Boolean pagas) {
+
+        if (Boolean.TRUE.equals(expiradas)) {
+            return listarExpiradas();
+        }
+        if (Boolean.TRUE.equals(pagas)) {
+            return listarSessoesPagas();
+        }
+
+        return sessaoRepository.findAll().stream().map(SessaoMapper::toDTO).toList();
     }
 
+    private List<SessaoDTO> listarSessoesPagas() {
+        List<Sessao> sessoesPagas = sessaoRepository.findAll(Example.of(Sessao.builder().statusPagamento(StatusPagamento.PAGO).build()));
+        return sessoesPagas.stream()
+                .map(SessaoMapper::toDTO)
+                .toList();
+    }
 
-    public Sessao iniciarSessao(Long usuarioId, Long id) {
-        Usuario usuario = usuarioRepository.findById(usuarioId)
+    private List<SessaoDTO> listarExpiradas() {
+        LocalDateTime agora = LocalDateTime.now();
+        List<Sessao> sessoesExpiradas = sessaoRepository.findByFimSessaoBefore(agora);
+        return sessoesExpiradas.stream()
+                .map(SessaoMapper::toDTO)
+                .toList();
+    }
+
+    public SessaoDTO iniciarSessao(SessaoDTO sessaoDTO) {
+        Usuario usuario = usuarioRepository.findById(sessaoDTO.getUsuarioId())
                 .orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
 
         if (!usuario.getTipoUsuario().equals(TipoUsuario.CONDUTOR)) {
             throw new RuntimeException("Usuario não é do tipo condutor");
         }
 
-        Parquimetro parquimetro = parquimetroRepository.findById(id)
+        Parquimetro parquimetro = parquimetroRepository.findById(sessaoDTO.getParquimetroId())
                 .orElseThrow(() -> new RuntimeException("Parquimetro não encontrado"));
 
-        Sessao sessao = new Sessao();
-        sessao.setUsuario(usuario);
-        sessao.setParquimetro(parquimetro);
-        sessao.setInicioSessao(LocalDateTime.now());
-        sessao.setStatusPagamento(StatusPagamento.PENDENTE);
+        Sessao sessaoSalva = sessaoRepository.save(SessaoMapper.toEntity(sessaoDTO, parquimetro, usuario));
 
-        Sessao sessaoSalva = sessaoRepository.save(sessao);
-
-        return sessaoSalva;
-    }
-
-    public void consultarPagamento(Long sessaoId) {
-        Sessao sessao = sessaoRepository.findById(sessaoId)
-                .orElseThrow(() -> new RuntimeException("Sessão não encontrada"));
-
-        Pagamento pagamentoExiste = pagamentoRepository.findBySessao(sessao)
-                .orElse(null);
-
-
-        if (pagamentoExiste != null && pagamentoExiste.getStatusPagamento().equals(StatusPagamento.PAGO)) {
-            sessao.setStatusPagamento(StatusPagamento.PAGO);
-            sessaoRepository.save(sessao);
-        } else {
-            throw new RuntimeException("Pagamento não realizado");
-        }
-
+        return SessaoMapper.toDTO(sessaoSalva);
     }
 }

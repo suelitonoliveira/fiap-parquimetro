@@ -3,13 +3,19 @@ package com.fiap.parquimetro.entities;
 import com.fiap.parquimetro.enums.TipoUsuario;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Entity
 @Data
 @Table(name = "tb_usuario", schema = "parquimetro")
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Usuario extends Auditoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

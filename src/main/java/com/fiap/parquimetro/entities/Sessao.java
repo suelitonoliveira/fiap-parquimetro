@@ -2,14 +2,19 @@ package com.fiap.parquimetro.entities;
 
 import com.fiap.parquimetro.enums.StatusPagamento;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name="tb_secao", schema = "parquimetro")
-
+@Table(name="tb_sessao", schema = "parquimetro")
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Sessao extends Auditoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,8 +1,6 @@
 package com.fiap.parquimetro.controller;
 
 import com.fiap.parquimetro.dto.UsuarioDTO;
-import com.fiap.parquimetro.entities.Usuario;
-import com.fiap.parquimetro.exceptions.RecursoNaoEncontradoException;
 import com.fiap.parquimetro.services.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -43,19 +41,12 @@ public class UsuarioController {
         return ResponseEntity.ok(cadastrarUsuario);
     }
 
-
-    /*@Operation(summary = "Atualiza Usuario existente", tags = "Usuário")
-    @PutMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> atualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
-        UsuarioDTO updatedUsuario = usuarioService.atualizarUsuario(id, usuarioDTO);
-        return ResponseEntity.ok(updatedUsuario);
+    @Operation(summary = "Lista todos os condutores", tags = "Usuário")
+    @GetMapping("/condutores")
+    public ResponseEntity<List<UsuarioDTO>> listarCondutores() {
+        List<UsuarioDTO> usuarios = usuarioService.listarCondutores();
+        return ResponseEntity.ok(usuarios);
     }
 
-    @Operation(summary = "Deleta o Usuario passando o ID", tags = "Usuário")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletaUsuario(@PathVariable Long id) {
-        usuarioService.deletaUsuario(id);
-        return ResponseEntity.noContent().build();
-    }*/
 
 }
