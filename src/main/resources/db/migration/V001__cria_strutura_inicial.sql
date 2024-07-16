@@ -85,6 +85,7 @@ CREATE TABLE parquimetro.tb_pagamento
     valor             DECIMAL                                 NOT NULL,
     data_pagamento    TIMESTAMP WITHOUT TIME ZONE             NOT NULL,
     status_pagamento  VARCHAR(255)                            NOT NULL,
+    tipo_pagamento  VARCHAR(255)                            NOT NULL,
     CONSTRAINT pk_tb_pagamento PRIMARY KEY (cod)
 );
 

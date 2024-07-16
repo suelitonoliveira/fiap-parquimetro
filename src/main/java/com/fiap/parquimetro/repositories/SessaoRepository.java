@@ -11,7 +11,8 @@ import java.util.Optional;
 @Repository
 public interface SessaoRepository extends JpaRepository<Sessao, Long> {
 
-    Optional<Sessao> findByUsuario_UsuarioId(Long usuarioId);
+    Optional<Sessao> findByIdAndUsuario_UsuarioId(Long id, Long usuarioId);
+
 
     List<Sessao> findByFimSessaoBefore(LocalDateTime now);
 

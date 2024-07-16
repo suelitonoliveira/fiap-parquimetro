@@ -27,4 +27,7 @@ public class PagamentoDTO {
     @NotNull(message = "Campo valor obrigatório")
     private BigDecimal valor;
 
+    @NotNull(message = "Campo codSessao obrigatório")
+    private Long codSessao;
+
 }

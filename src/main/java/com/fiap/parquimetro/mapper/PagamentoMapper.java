@@ -17,6 +17,7 @@ public class PagamentoMapper {
                 .valor(pagamentoDTO.getValor())
                 .dataPagamento(LocalDateTime.now())
                 .statusPagamento(StatusPagamento.PAGO)
+                .tipoPagamento(pagamentoDTO.getTipoPagamento())
                 .build();
     }
 
@@ -26,6 +27,8 @@ public class PagamentoMapper {
                 .id(pagamento.getPagamentoId())
                 .codUsuario(pagamento.getSessao().getUsuario().getUsuarioId())
                 .valor(pagamento.getValor())
+                .tipoPagamento(pagamento.getTipoPagamento())
+                .codSessao(pagamento.getSessao().getId())
                 .build();
     }
 

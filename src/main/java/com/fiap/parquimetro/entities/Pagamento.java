@@ -1,6 +1,7 @@
 package com.fiap.parquimetro.entities;
 
 import com.fiap.parquimetro.enums.StatusPagamento;
+import com.fiap.parquimetro.enums.TipoPagamento;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,4 +37,8 @@ public class Pagamento extends Auditoria {
     @Column(name = "status_pagamento", nullable = false)
     @Enumerated(EnumType.STRING)
     private StatusPagamento statusPagamento =  StatusPagamento.PENDENTE;
+
+    @Column(name = "tipo_pagamento", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TipoPagamento tipoPagamento;
 }
