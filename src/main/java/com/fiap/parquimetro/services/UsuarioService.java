@@ -32,12 +32,24 @@ public class UsuarioService {
 
     @Transactional
     public UsuarioDTO salvar(UsuarioDTO usuarioDTO) {
+        Usuario usuarioExistente = usuarioRepository.findByCpf(usuarioDTO.getCpf());
+        if (usuarioExistente != null) {
+            usuarioExistente.setNome(usuarioDTO.getNome());
+            usuarioExistente.setEndereco(usuarioDTO.getEndereco());
+            usuarioExistente.setEmail(usuarioDTO.getEmail());
+            usuarioExistente.setTelefone(usuarioDTO.getTelefone());
+            usuarioExistente.setTipoUsuario(usuarioDTO.getTipoUsuario());
+            enderecoRepository.save(usuarioExistente.getEndereco());
+            Usuario updateUsuario = usuarioRepository.save(usuarioExistente);
+            return UsuarioMapper.toDTO(updateUsuario);
+    }else {
         Endereco endereco = usuarioDTO.getEndereco();
         enderecoRepository.save(endereco);
         Usuario usuario = UsuarioMapper.toEntity(usuarioDTO);
         Usuario savedUsuario = usuarioRepository.save(usuario);
         return UsuarioMapper.toDTO(savedUsuario);
     }
+}
 
     public UsuarioDTO buscaUsuarioPorId(Long id) {
         return this.usuarioRepository.findById(id)
