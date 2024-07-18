@@ -4,11 +4,14 @@ import com.fiap.parquimetro.dto.UsuarioDTO;
 import com.fiap.parquimetro.entities.Endereco;
 import com.fiap.parquimetro.entities.Usuario;
 import com.fiap.parquimetro.enums.TipoUsuario;
+import com.fiap.parquimetro.exceptions.DuplicateCpfException;
+import com.fiap.parquimetro.exceptions.DuplicateEmailException;
 import com.fiap.parquimetro.exceptions.RecursoNaoEncontradoException;
 import com.fiap.parquimetro.mapper.UsuarioMapper;
 import com.fiap.parquimetro.repositories.EnderecoRepository;
 import com.fiap.parquimetro.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,24 +35,24 @@ public class UsuarioService {
 
     @Transactional
     public UsuarioDTO salvar(UsuarioDTO usuarioDTO) {
-        Usuario usuarioExistente = usuarioRepository.findByCpf(usuarioDTO.getCpf());
-        if (usuarioExistente != null) {
-            usuarioExistente.setNome(usuarioDTO.getNome());
-            usuarioExistente.setEndereco(usuarioDTO.getEndereco());
-            usuarioExistente.setEmail(usuarioDTO.getEmail());
-            usuarioExistente.setTelefone(usuarioDTO.getTelefone());
-            usuarioExistente.setTipoUsuario(usuarioDTO.getTipoUsuario());
-            enderecoRepository.save(usuarioExistente.getEndereco());
-            Usuario updateUsuario = usuarioRepository.save(usuarioExistente);
-            return UsuarioMapper.toDTO(updateUsuario);
-    }else {
-        Endereco endereco = usuarioDTO.getEndereco();
-        enderecoRepository.save(endereco);
-        Usuario usuario = UsuarioMapper.toEntity(usuarioDTO);
-        Usuario savedUsuario = usuarioRepository.save(usuario);
-        return UsuarioMapper.toDTO(savedUsuario);
+
+            Usuario cpfExiste = usuarioRepository.findByCpf(usuarioDTO.getCpf());
+            if (cpfExiste != null) {
+                throw new DuplicateCpfException("CPF ja existe no banco de dados");
+            } else {
+                Usuario usuarioByEmail = usuarioRepository.findByEmail(usuarioDTO.getEmail());
+                if (usuarioByEmail != null) {
+                    throw new DuplicateEmailException("Email já existe no banco de dados");
+                }else {
+                    Endereco endereco = usuarioDTO.getEndereco();
+                    enderecoRepository.save(endereco);
+                    Usuario usuario = UsuarioMapper.toEntity(usuarioDTO);
+                    Usuario savedUsuario = usuarioRepository.save(usuario);
+                    return UsuarioMapper.toDTO(savedUsuario);
+                }
+            }
+
     }
-}
 
     public UsuarioDTO buscaUsuarioPorId(Long id) {
         return this.usuarioRepository.findById(id)

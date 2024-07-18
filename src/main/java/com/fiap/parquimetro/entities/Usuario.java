@@ -32,7 +32,7 @@ public class Usuario extends Auditoria {
     @Column(name = "CPF", nullable = false, unique = true)
     private String cpf;
 
-    @Column(name = "EMAIL", nullable = false)
+    @Column(name = "EMAIL", nullable = false, unique = true)
     @Email
     private String email;
 
