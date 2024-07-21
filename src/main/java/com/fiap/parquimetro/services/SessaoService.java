@@ -10,8 +10,10 @@ import com.fiap.parquimetro.mapper.SessaoMapper;
 import com.fiap.parquimetro.repositories.ParquimetroRepository;
 import com.fiap.parquimetro.repositories.SessaoRepository;
 import com.fiap.parquimetro.repositories.UsuarioRepository;
+import com.fiap.parquimetro.util.EmailUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,6 +28,8 @@ public class SessaoService {
     private final UsuarioRepository usuarioRepository;
 
     private final ParquimetroRepository parquimetroRepository;
+
+    private final NotificacaoService notificacaoService;
 
 
     public List<SessaoDTO> listar(Boolean expiradas, Boolean pagas) {
@@ -70,4 +74,18 @@ public class SessaoService {
 
         return SessaoMapper.toDTO(sessaoSalva);
     }
+
+    @Scheduled(fixedRate = 30000)
+    private void notificarSessoesPendentes(){
+        LocalDateTime agora = LocalDateTime.now();
+        LocalDateTime faltante = agora.plusMinutes(10);
+
+        List<Sessao> sessoesPendentes = sessaoRepository.findByStatusPagamentoAndFimSessaoBefore(
+                StatusPagamento.PENDENTE, faltante);
+
+        for (Sessao sessao : sessoesPendentes) {
+            notificacaoService.enviarNotificacao(sessao, EmailUtils.bodyTempoLimite(sessao), EmailUtils.subjectTempoLimite);
+        }
+    }
+
 }

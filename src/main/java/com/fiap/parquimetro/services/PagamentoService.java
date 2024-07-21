@@ -17,6 +17,7 @@ import com.fiap.parquimetro.repositories.PagamentoRepository;
 import com.fiap.parquimetro.repositories.ParquimetroRepository;
 import com.fiap.parquimetro.repositories.ReciboRepository;
 import com.fiap.parquimetro.repositories.SessaoRepository;
+import com.fiap.parquimetro.util.EmailUtils;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +64,7 @@ public class PagamentoService {
                     .tempoEstacionado(extrairTempoEstacionado(sessao))
                     .build();
             reciboRepository.saveAndFlush(recibo);
-            notificacaoService.enviarNotificacao(sessao, "Pagamento realizado com sucesso");
+            notificacaoService.enviarNotificacao(sessao, EmailUtils.bodyComprovante(recibo), EmailUtils.subjectComprovante);
         }
         return pagamentoRealizado;
     }
