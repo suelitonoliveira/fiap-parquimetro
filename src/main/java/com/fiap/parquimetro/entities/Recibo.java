@@ -1,17 +1,24 @@
 package com.fiap.parquimetro.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "recibo", schema = "parquimetro")
+@Table(name = "tb_recibo", schema = "parquimetro")
 @Data
-public class Recibo {
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Recibo extends Auditoria{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "COD")
     private Long id;
 
     @ManyToOne

@@ -1,19 +1,28 @@
 package com.fiap.parquimetro.entities;
 
 import com.fiap.parquimetro.enums.StatusPagamento;
+import com.fiap.parquimetro.enums.TipoPagamento;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="pagamentos", schema = "parquimetro")
+@Table(name="tb_pagamento", schema = "parquimetro")
 @Data
-public class Pagamento {
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Pagamento extends Auditoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "COD")
+    private Long pagamentoId;
 
     @ManyToOne
     @JoinColumn(name = "sessao_id", nullable = false)
@@ -27,5 +36,9 @@ public class Pagamento {
 
     @Column(name = "status_pagamento", nullable = false)
     @Enumerated(EnumType.STRING)
-    private StatusPagamento statusPagamento;
+    private StatusPagamento statusPagamento =  StatusPagamento.PENDENTE;
+
+    @Column(name = "tipo_pagamento", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TipoPagamento tipoPagamento;
 }

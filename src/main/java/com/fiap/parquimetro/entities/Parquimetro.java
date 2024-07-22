@@ -1,21 +1,34 @@
 package com.fiap.parquimetro.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
-import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 
 @Entity
-@Table(name = "parquimetro", schema = "parquimetro")
+@Table(name = "tb_parquimetro", schema = "parquimetro")
 @Data
-public class Parquimetro {
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Parquimetro extends Auditoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "COD")
     private Long id;
-    private String localizacao;
-    private String status;
-    private Integer capacidadeVagas;
-    private LocalDateTime dataInstalacao;
+
+    @Column(name = "NUMERO_SERIE", nullable = false, unique = true)
+    private String numeroSerie;
+
+    @Column(name = "MODELO", nullable = false)
+    private String modelo;
+
+    @ManyToOne
+    @JoinColumn(name = "USUARIO_COD")
+    private Usuario usuario;
+
 }
