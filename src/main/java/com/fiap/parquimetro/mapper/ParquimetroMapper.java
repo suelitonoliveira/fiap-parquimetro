@@ -2,15 +2,18 @@ package com.fiap.parquimetro.mapper;
 
 import com.fiap.parquimetro.dto.ParquimetroDTO;
 import com.fiap.parquimetro.dto.UsuarioDTO;
+import com.fiap.parquimetro.entities.Endereco;
 import com.fiap.parquimetro.entities.Parquimetro;
 import com.fiap.parquimetro.entities.Usuario;
+import com.fiap.parquimetro.entities.Veiculo;
 
+import java.util.List;
 import java.util.Objects;
 
 public class ParquimetroMapper {
 
-    public static Parquimetro toEntity(ParquimetroDTO parquimetroDTO, UsuarioDTO usuarioDTO) {
-        Usuario usuario = UsuarioMapper.toEntity(usuarioDTO);
+    public static Parquimetro toEntity(ParquimetroDTO parquimetroDTO, UsuarioDTO usuarioDTO, Endereco endereco, List<Veiculo> listaVeiculo) {
+        Usuario usuario = UsuarioMapper.toEntity(usuarioDTO, endereco, listaVeiculo);
         return Parquimetro
                 .builder()
                 .modelo(parquimetroDTO.getModelo())
@@ -29,8 +32,8 @@ public class ParquimetroMapper {
                 .build();
     }
 
-    public static Parquimetro updateEntity(Parquimetro parquimetroExistente, ParquimetroDTO parquimetroDTO, UsuarioDTO usuarioDTO) {
-        Usuario usuario = UsuarioMapper.toEntity(usuarioDTO);
+    public static Parquimetro updateEntity(Parquimetro parquimetroExistente, ParquimetroDTO parquimetroDTO, UsuarioDTO usuarioDTO, Endereco endereco, List<Veiculo> listaVeiculo) {
+        Usuario usuario = UsuarioMapper.toEntity(usuarioDTO,endereco, listaVeiculo);
         return Parquimetro
                 .builder()
                 .id(parquimetroExistente.getId())
