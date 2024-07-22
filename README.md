@@ -43,11 +43,6 @@ Em java 17 juntamente com o framework  spring boot entre outros citados nesse du
   Deve ser executado do arquivo docker-compose dentro da pasta fiap-parquimetro\src\main\resources\docker
 - comando docker-compose up -d
 
-<h2>📖 Conexão com o banco do Azure</h2>
-SPRING_DATASOURCE_URL:jdbc:postgresql://fiap-pos-db.postgres.database.azure.com:5432/postgres
-SPRING_DATASOURCE_USERNAME=posfiapcontainer  
-SPRING_DATASOURCE_PASSWORD=Po@12345678
-
 ## 📖 Documentação-API
 
 foi realizado a hospedagem no azure segue link do swagger:
