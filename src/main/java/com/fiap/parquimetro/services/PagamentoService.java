@@ -45,6 +45,7 @@ public class PagamentoService {
     public PagamentoDTO realizarPagamento(@Valid PagamentoDTO pagamentoDTO) {
         UsuarioDTO usuario = usuarioService.buscaUsuarioPorId(pagamentoDTO.getCodUsuario());
         validarTipoUsuario(usuario.tipoUsuario);
+<<<<<<< Updated upstream
         Sessao sessao =
                 sessaoRepository.findByIdAndUsuario_UsuarioId(pagamentoDTO.getCodSessao(), pagamentoDTO.getCodUsuario())
                         .orElseThrow(() -> new RecursoNaoEncontradoException(String.format("Sessão com cod:%d não existe para esse usuário",
@@ -79,6 +80,16 @@ public class PagamentoService {
         long segundos = duracao.getSeconds() % 60;
 
         return String.format("%02d:%02d:%02d", horas, minutos, segundos);
+=======
+        Sessao sessaoUsuario =
+                sessaoRepository.findByUsuario_UsuarioId(pagamentoDTO.getCodUsuario())
+                        .orElseThrow(() -> new RecursoNaoEncontradoException(String.format("Usuário com cod:%d não possui sessão",
+                                        pagamentoDTO.getCodUsuario())));
+        Pagamento pagamento =  PagamentoMapper.toEntity(pagamentoDTO,sessaoUsuario);
+        sessaoUsuario.setStatusPagamento(StatusPagamento.PAGO);
+        sessaoRepository.save(sessaoUsuario);
+        return PagamentoMapper.toDTO(pagamentoRepository.save(pagamento));
+>>>>>>> Stashed changes
     }
 
     private void validarTipoUsuario(TipoUsuario tipoUsuario) {
