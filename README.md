@@ -55,7 +55,7 @@ http://localhost:8080/fiap-parquimetro/swagger-ui/index.html#/
 
 - Segue o link do miro aonde mostramos todo os fluxos https://miro.com/app/board/uXjVKRr033s=/
 - Collection postman: https://universal-crater-6079.postman.co/workspace/fiap~63b45161-f5be-4f39-8e20-86f482f27767/collection/13186621-a87c061a-dd3b-400c-90f7-17ed9dd6674d?action=share&creator=13186621
-- swagger: https://fiap-pos-parquimetro.azurewebsites.net/fiap-parquimetro/swagger-ui/index.html#/Usu%C3%A1rio/listarTodos
+- swagger:https://fiap-pos-parquimetro.azurewebsites.net/fiap-parquimetro/swagger-ui/index.html#/
 
 
 ## 🤝 Integrantes
