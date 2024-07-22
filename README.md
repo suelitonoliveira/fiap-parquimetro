@@ -32,6 +32,7 @@ Em java 17 juntamente com o framework  spring boot entre outros citados nesse du
 - **Docker:** Para rodar o banco de dados em conteiner.
 - **Swagger:** Para documentação do sistema
 - **Azure:** Como servidor cloud para deploy da aplicação
+- **GitActions:** Deploy automatizado integrando azure com git Actions
 
 ## 🚀 Iniciar
 
