@@ -36,21 +36,21 @@ public class UsuarioService {
     @Transactional
     public UsuarioDTO salvar(UsuarioDTO usuarioDTO) {
 
-            Usuario cpfExiste = usuarioRepository.findByCpf(usuarioDTO.getCpf());
-            if (cpfExiste != null) {
-                throw new DuplicateCpfException("CPF ja existe no banco de dados");
+        Usuario cpfExiste = usuarioRepository.findByCpf(usuarioDTO.getCpf());
+        if (cpfExiste != null) {
+            throw new DuplicateCpfException("CPF ja existe no banco de dados");
+        } else {
+            Usuario usuarioByEmail = usuarioRepository.findByEmail(usuarioDTO.getEmail());
+            if (usuarioByEmail != null) {
+                throw new DuplicateEmailException("Email já existe no banco de dados");
             } else {
-                Usuario usuarioByEmail = usuarioRepository.findByEmail(usuarioDTO.getEmail());
-                if (usuarioByEmail != null) {
-                    throw new DuplicateEmailException("Email já existe no banco de dados");
-                }else {
-                    Endereco endereco = usuarioDTO.getEndereco();
-                    enderecoRepository.save(endereco);
-                    Usuario usuario = UsuarioMapper.toEntity(usuarioDTO);
-                    Usuario savedUsuario = usuarioRepository.save(usuario);
-                    return UsuarioMapper.toDTO(savedUsuario);
-                }
+                Endereco endereco = usuarioDTO.getEndereco();
+                enderecoRepository.save(endereco);
+                Usuario usuario = UsuarioMapper.toEntity(usuarioDTO);
+                Usuario savedUsuario = usuarioRepository.save(usuario);
+                return UsuarioMapper.toDTO(savedUsuario);
             }
+        }
 
     }
 

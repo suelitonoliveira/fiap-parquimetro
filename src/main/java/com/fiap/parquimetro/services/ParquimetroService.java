@@ -22,7 +22,7 @@ public class ParquimetroService {
     @Transactional(rollbackOn = Exception.class)
     public ParquimetroDTO salvar(ParquimetroDTO parquimetroDTO) {
         UsuarioDTO usuario = usuarioService.buscaUsuarioPorId(parquimetroDTO.getCodUsuario());
-        if (!usuario.tipoUsuario.equals(TipoUsuario.ADMIN_SISTEMA)){
+        if (!usuario.tipoUsuario.equals(TipoUsuario.ADMIN_SISTEMA)) {
             throw new RuntimeException("Usuário não é do tipo ADMIN_SISTEMA");
         }
         Parquimetro novoParquimetro = parquimetroRepository.findByNumeroSerieIgnoreCase(parquimetroDTO.getNumeroSerie())
@@ -32,6 +32,6 @@ public class ParquimetroService {
     }
 
     public List<ParquimetroDTO> listarTodos() {
-      return parquimetroRepository.findAll().stream().map(ParquimetroMapper::toDTO).toList();
+        return parquimetroRepository.findAll().stream().map(ParquimetroMapper::toDTO).toList();
     }
 }
