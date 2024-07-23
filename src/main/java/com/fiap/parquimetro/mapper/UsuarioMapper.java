@@ -1,18 +1,22 @@
 package com.fiap.parquimetro.mapper;
 
 import com.fiap.parquimetro.dto.UsuarioDTO;
+import com.fiap.parquimetro.entities.Endereco;
 import com.fiap.parquimetro.entities.Usuario;
+import com.fiap.parquimetro.entities.Veiculo;
+
+import java.util.List;
 
 public class UsuarioMapper {
-    public static Usuario toEntity(UsuarioDTO dto) {
+    public static Usuario toEntity(UsuarioDTO dto, Endereco endereco, List<Veiculo> veiculos) {
         Usuario usuario = new Usuario();
         usuario.setUsuarioId(dto.getUsuarioId());
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
-        usuario.setEndereco(dto.getEndereco());
         usuario.setCpf(dto.getCpf());
         usuario.setTelefone(dto.getTelefone());
-        usuario.setVeiculos(dto.getVeiculos());
+        usuario.setEndereco(endereco);
+        usuario.setVeiculos(veiculos);
         usuario.setTipoUsuario(dto.getTipoUsuario());
         return usuario;
     }
@@ -22,10 +26,10 @@ public class UsuarioMapper {
         dto.setUsuarioId(entity.getUsuarioId());
         dto.setNome(entity.getNome());
         dto.setEmail(entity.getEmail());
-        dto.setEndereco(entity.getEndereco());
+        dto.setCodEndereco(entity.getEndereco().getId());
         dto.setCpf(entity.getCpf());
         dto.setTelefone(entity.getTelefone());
-        dto.setVeiculos(entity.getVeiculos());
+        dto.setListaVeiculo(entity.getVeiculos());
         dto.setTipoUsuario(entity.getTipoUsuario());
         return dto;
     }

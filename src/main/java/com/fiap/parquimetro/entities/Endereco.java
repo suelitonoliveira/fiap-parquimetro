@@ -1,11 +1,17 @@
 package com.fiap.parquimetro.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "tb_endereco", schema = "parquimetro")
 @Data
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Endereco extends Auditoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +35,5 @@ public class Endereco extends Auditoria {
 
     @Column(name = "CEP", nullable = false, length = 8)
     private String cep;
-
 
 }

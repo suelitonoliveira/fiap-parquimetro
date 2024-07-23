@@ -4,7 +4,6 @@ import com.fiap.parquimetro.dto.VeiculoDto;
 import com.fiap.parquimetro.entities.Usuario;
 import com.fiap.parquimetro.entities.Veiculo;
 import com.fiap.parquimetro.enums.TipoUsuario;
-import com.fiap.parquimetro.mapper.UsuarioMapper;
 import com.fiap.parquimetro.mapper.VeiculoMapper;
 import com.fiap.parquimetro.repositories.UsuarioRepository;
 import com.fiap.parquimetro.repositories.VeiculoRepository;
@@ -35,7 +34,7 @@ public class VeiculoService {
         if (!usuario.getTipoUsuario().equals(TipoUsuario.CONDUTOR)) {
             throw new RuntimeException("Usuario não é do tipo condutor");
         }
-        Veiculo entity = VeiculoMapper.toEntity(veiculoDto, UsuarioMapper.toDTO(usuario));
+        Veiculo entity = VeiculoMapper.toEntity(veiculoDto, usuario);
 
         Veiculo veiculoSalvo = veiculoRepository.findByPlacaIgnoreCase(veiculoDto.getPlaca())
                 .map(veiculoExistente -> VeiculoMapper.toUpdate(veiculoExistente, entity))
@@ -48,5 +47,9 @@ public class VeiculoService {
 
     public List<VeiculoDto> listarVeiculos() {
         return veiculoRepository.findAll().stream().map(VeiculoMapper::toDTO).toList();
+    }
+
+    public List<Veiculo> listarPorCpfUsuario(String cpfUsuario) {
+        return veiculoRepository.findDistinctByUsuario_Cpf(cpfUsuario);
     }
 }

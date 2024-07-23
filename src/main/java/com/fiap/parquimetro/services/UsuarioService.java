@@ -1,17 +1,17 @@
 package com.fiap.parquimetro.services;
 
+import com.fiap.parquimetro.dto.EnderecoDTO;
 import com.fiap.parquimetro.dto.UsuarioDTO;
 import com.fiap.parquimetro.entities.Endereco;
 import com.fiap.parquimetro.entities.Usuario;
+import com.fiap.parquimetro.entities.Veiculo;
 import com.fiap.parquimetro.enums.TipoUsuario;
 import com.fiap.parquimetro.exceptions.DuplicateCpfException;
 import com.fiap.parquimetro.exceptions.DuplicateEmailException;
 import com.fiap.parquimetro.exceptions.RecursoNaoEncontradoException;
 import com.fiap.parquimetro.mapper.UsuarioMapper;
-import com.fiap.parquimetro.repositories.EnderecoRepository;
 import com.fiap.parquimetro.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +26,9 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    private final EnderecoRepository enderecoRepository;
+    private final EnderecoService enderecoService;
+
+    private final VeiculoService veiculoService;
 
     public List<UsuarioDTO> listarTodos() {
         List<Usuario> usuarios = this.usuarioRepository.findAll();
@@ -44,11 +46,13 @@ public class UsuarioService {
             if (usuarioByEmail != null) {
                 throw new DuplicateEmailException("Email já existe no banco de dados");
             } else {
-                Endereco endereco = usuarioDTO.getEndereco();
-                enderecoRepository.save(endereco);
-                Usuario usuario = UsuarioMapper.toEntity(usuarioDTO);
-                Usuario savedUsuario = usuarioRepository.save(usuario);
-                return UsuarioMapper.toDTO(savedUsuario);
+                Endereco endereco = enderecoService.buscarEnderecoPorId(usuarioDTO.getUsuarioId());
+                List<Veiculo> veiculos = veiculoService.listarPorCpfUsuario(usuarioDTO.getCpf());
+                if (veiculos.isEmpty()) {
+                    throw new RecursoNaoEncontradoException("Não há veículo cadastrado para esse usuário!");
+                }
+                Usuario usuario = UsuarioMapper.toEntity(usuarioDTO, endereco, veiculos);
+                return UsuarioMapper.toDTO(usuarioRepository.save(usuario));
             }
         }
 
@@ -68,6 +72,10 @@ public class UsuarioService {
                         .tipoUsuario(TipoUsuario.CONDUTOR)
                         .build()));
         return usuarios.stream().map(UsuarioMapper::toDTO).toList();
+    }
+
+    public EnderecoDTO cadastrarEndereco(EnderecoDTO enderecoDTO) {
+        return this.enderecoService.cadastrar(enderecoDTO);
     }
 }
 
