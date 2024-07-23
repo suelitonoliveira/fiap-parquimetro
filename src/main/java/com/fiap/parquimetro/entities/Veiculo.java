@@ -18,7 +18,7 @@ public class Veiculo {
     @Column(name = "COD")
     private Long id;
 
-    @Column(name = "PLACA", nullable = false)
+    @Column(name = "PLACA", nullable = false , unique = true)
     private String placa;
 
     @Column(name = "MODELO", nullable = false)

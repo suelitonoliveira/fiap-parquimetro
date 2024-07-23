@@ -1,15 +1,14 @@
 package com.fiap.parquimetro.services;
 
-import com.fiap.parquimetro.dto.ParquimetroDTO;
 import com.fiap.parquimetro.dto.VeiculoDto;
 import com.fiap.parquimetro.entities.Usuario;
 import com.fiap.parquimetro.entities.Veiculo;
 import com.fiap.parquimetro.enums.TipoUsuario;
-import com.fiap.parquimetro.mapper.ParquimetroMapper;
 import com.fiap.parquimetro.mapper.UsuarioMapper;
 import com.fiap.parquimetro.mapper.VeiculoMapper;
 import com.fiap.parquimetro.repositories.UsuarioRepository;
-import com.fiap.parquimetro.repositories.VeiculosRepository;
+import com.fiap.parquimetro.repositories.VeiculoRepository;
+import com.fiap.parquimetro.util.PlacaValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +20,14 @@ public class VeiculoService {
 
     private final UsuarioRepository usuarioRepository;
 
-    private final VeiculosRepository veiculosRepository;
+    private final VeiculoRepository veiculoRepository;
 
-    public VeiculoDto cadastrarVeiculo (VeiculoDto veiculoDto){
+    public VeiculoDto cadastrarVeiculo(VeiculoDto veiculoDto) {
+
+        boolean valid = PlacaValidator.isValid(veiculoDto.getPlaca());
+        if (!valid) {
+            throw new RuntimeException("Placa inválida!");
+        }
 
         Usuario usuario = usuarioRepository.findById(veiculoDto.getUsuarioId())
                 .orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
@@ -31,14 +35,18 @@ public class VeiculoService {
         if (!usuario.getTipoUsuario().equals(TipoUsuario.CONDUTOR)) {
             throw new RuntimeException("Usuario não é do tipo condutor");
         }
+        Veiculo entity = VeiculoMapper.toEntity(veiculoDto, UsuarioMapper.toDTO(usuario));
 
-        Veiculo veiculo = veiculosRepository.findByPlacaIgnoreCase(veiculoDto.getNumeroPlaca())
-                .orElseThrow(() -> new RuntimeException("Veiculo ja cadastrado"));
+        Veiculo veiculoSalvo = veiculoRepository.findByPlacaIgnoreCase(veiculoDto.getPlaca())
+                .map(veiculoExistente -> VeiculoMapper.toUpdate(veiculoExistente, entity))
+                .map(veiculoRepository::save)
+                .orElseGet(() -> veiculoRepository.save(entity));
 
-        Veiculo cadastroVeiculo = VeiculoMapper.toEntity(veiculoDto, UsuarioMapper.toDTO(usuario));
-        return VeiculoMapper.toDTO(veiculo);
+
+        return VeiculoMapper.toDTO(veiculoSalvo);
     }
+
     public List<VeiculoDto> listarVeiculos() {
-        return veiculosRepository.findAll().stream().map(VeiculoMapper::toDTO).toList();
+        return veiculoRepository.findAll().stream().map(VeiculoMapper::toDTO).toList();
     }
 }

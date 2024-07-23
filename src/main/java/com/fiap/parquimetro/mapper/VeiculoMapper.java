@@ -1,9 +1,7 @@
 package com.fiap.parquimetro.mapper;
 
-import com.fiap.parquimetro.dto.ParquimetroDTO;
 import com.fiap.parquimetro.dto.UsuarioDTO;
 import com.fiap.parquimetro.dto.VeiculoDto;
-import com.fiap.parquimetro.entities.Parquimetro;
 import com.fiap.parquimetro.entities.Usuario;
 import com.fiap.parquimetro.entities.Veiculo;
 
@@ -18,7 +16,7 @@ public class VeiculoMapper {
                 .id(veiculoDto.getId())
                 .usuario(usuario)
                 .marca(veiculoDto.getMarca())
-                .placa(veiculoDto.getNumeroPlaca())
+                .placa(veiculoDto.getPlaca())
                 .modelo(veiculoDto.getModelo())
                 .build();
     }
@@ -29,20 +27,19 @@ public class VeiculoMapper {
                 .id(veiculo.getId())
                 .marca(veiculo.getMarca())
                 .modelo(veiculo.getModelo())
-                .numeroPlaca(veiculo.getPlaca())
+                .placa(veiculo.getPlaca())
                 .build();
     }
 
-    public static Parquimetro updateEntity(Parquimetro parquimetroExistente, ParquimetroDTO parquimetroDTO, UsuarioDTO usuarioDTO) {
-        Usuario usuario = UsuarioMapper.toEntity(usuarioDTO);
-        return Parquimetro
-                .builder()
-                .id(parquimetroExistente.getId())
-                .modelo(Objects.nonNull(parquimetroDTO.getModelo()) ? parquimetroDTO.getModelo() : parquimetroExistente.getModelo())
-                .numeroSerie(parquimetroDTO.getNumeroSerie())
-                .usuario(usuario)
-                .dataDeInclusao(parquimetroExistente.getDataDeInclusao())
-                .build();
 
+    public static Veiculo toUpdate(Veiculo veiculoExistente, Veiculo veiculo) {
+        return Veiculo
+                .builder()
+                .id(veiculoExistente.getId())
+                .placa(Objects.nonNull(veiculo.getPlaca()) ? veiculo.getPlaca() : veiculoExistente.getPlaca())
+                .modelo(Objects.nonNull(veiculo.getModelo()) ? veiculo.getModelo() : veiculoExistente.getModelo())
+                .marca(Objects.nonNull(veiculo.getMarca()) ? veiculo.getMarca() : veiculoExistente.getMarca())
+                .usuario(Objects.nonNull(veiculo.getUsuario()) ? veiculo.getUsuario() : veiculoExistente.getUsuario())
+                .build();
     }
 }
