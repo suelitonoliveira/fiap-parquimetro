@@ -24,7 +24,6 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarios);
     }
 
-
     @Operation(summary = "Busca Usuario por Id", tags = "Usuário")
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDTO> buscaUsuarioPorId(@PathVariable Long id) {

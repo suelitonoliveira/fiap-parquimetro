@@ -7,9 +7,7 @@ import com.fiap.parquimetro.entities.Parquimetro;
 import com.fiap.parquimetro.entities.Veiculo;
 import com.fiap.parquimetro.enums.TipoUsuario;
 import com.fiap.parquimetro.mapper.ParquimetroMapper;
-import com.fiap.parquimetro.repositories.EnderecoRepository;
 import com.fiap.parquimetro.repositories.ParquimetroRepository;
-import com.fiap.parquimetro.repositories.VeiculoRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,7 +33,7 @@ public class ParquimetroService {
         List<Veiculo> listaVeiculo = veiculoService.listarPorCpfUsuario(usuario.getCpf());
         Endereco endereco = enderecoService.buscarEnderecoPorId(usuario.getCodEndereco());
         Parquimetro novoParquimetro = parquimetroRepository.findByNumeroSerieIgnoreCase(parquimetroDTO.getNumeroSerie())
-                .map(parquimetroExistente -> ParquimetroMapper.updateEntity(parquimetroExistente, parquimetroDTO, usuario,endereco,listaVeiculo))
+                .map(parquimetroExistente -> ParquimetroMapper.updateEntity(parquimetroExistente, parquimetroDTO, usuario, endereco, listaVeiculo))
                 .orElseGet(() -> ParquimetroMapper.toEntity(parquimetroDTO, usuario, endereco, listaVeiculo));
         return ParquimetroMapper.toDTO(parquimetroRepository.save(novoParquimetro));
     }

@@ -75,7 +75,7 @@ public class UsuarioService {
     }
 
     public EnderecoDTO cadastrarEndereco(EnderecoDTO enderecoDTO) {
-       return this.enderecoService.cadastrar(enderecoDTO);
+        return this.enderecoService.cadastrar(enderecoDTO);
     }
 }
 

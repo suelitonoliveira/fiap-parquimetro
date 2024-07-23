@@ -1,6 +1,7 @@
 package com.fiap.parquimetro.repositories;
 
 import com.fiap.parquimetro.entities.Sessao;
+import com.fiap.parquimetro.enums.StatusPagamento;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +14,7 @@ public interface SessaoRepository extends JpaRepository<Sessao, Long> {
 
     Optional<Sessao> findByIdAndUsuario_UsuarioId(Long id, Long usuarioId);
 
-
     List<Sessao> findByFimSessaoBefore(LocalDateTime now);
 
+    List<Sessao> findByStatusPagamentoAndFimSessaoBefore(StatusPagamento statusPagamento, LocalDateTime fimSessao);
 }

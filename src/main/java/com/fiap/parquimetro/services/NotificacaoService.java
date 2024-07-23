@@ -14,9 +14,10 @@ import java.time.LocalDateTime;
 public class NotificacaoService {
 
     private final NotificacaoRepository notificacaoRepository;
+    private final MailSenderService mailSenderService;
 
 
-    public void enviarNotificacao(Sessao sessao, String mensagem) {
+    public void enviarNotificacao(Sessao sessao, String mensagem, String assunto) {
         var notificacao =
                 Notificacao
                         .builder()
@@ -26,9 +27,8 @@ public class NotificacaoService {
                         .sessao(sessao)
                         .build();
         notificacaoRepository.save(notificacao);
+        mailSenderService.sendEmail(sessao.getUsuario().getEmail(), assunto, mensagem);
     }
-
-
 }
 
 
