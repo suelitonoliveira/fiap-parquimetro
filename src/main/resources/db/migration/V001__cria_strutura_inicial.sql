@@ -8,7 +8,7 @@ CREATE TABLE parquimetro.tb_endereco
     complemento       VARCHAR(50)                             NOT NULL,
     cidade            VARCHAR(50)                             NOT NULL,
     estado            VARCHAR(2)                              NOT NULL,
-    cep               VARCHAR(8)                              NOT NULL,
+    cep               VARCHAR(50)                              NOT NULL,
     CONSTRAINT pk_tb_endereco PRIMARY KEY (cod)
 );
 
