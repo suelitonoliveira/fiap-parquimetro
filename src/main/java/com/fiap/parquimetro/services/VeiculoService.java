@@ -7,6 +7,7 @@ import com.fiap.parquimetro.enums.TipoUsuario;
 import com.fiap.parquimetro.mapper.VeiculoMapper;
 import com.fiap.parquimetro.repositories.UsuarioRepository;
 import com.fiap.parquimetro.repositories.VeiculoRepository;
+import com.fiap.parquimetro.util.EmailUtils;
 import com.fiap.parquimetro.util.PlacaValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class VeiculoService {
     private final UsuarioRepository usuarioRepository;
 
     private final VeiculoRepository veiculoRepository;
+    private final NotificacaoService notificacaoService;
 
     public VeiculoDto cadastrarVeiculo(VeiculoDto veiculoDto) {
 
@@ -41,7 +43,9 @@ public class VeiculoService {
                 .map(veiculoRepository::save)
                 .orElseGet(() -> veiculoRepository.save(entity));
 
-
+        notificacaoService.enviarNotificacao(usuario,
+                EmailUtils.bodyCadastroVeiculo(veiculoSalvo),
+                EmailUtils.subjectCadastroVeiculo);
         return VeiculoMapper.toDTO(veiculoSalvo);
     }
 

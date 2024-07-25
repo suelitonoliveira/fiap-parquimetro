@@ -2,13 +2,13 @@ package com.fiap.parquimetro.services;
 
 import com.fiap.parquimetro.dto.UsuarioDTO;
 import com.fiap.parquimetro.entities.Usuario;
-import com.fiap.parquimetro.entities.Veiculo;
 import com.fiap.parquimetro.enums.TipoUsuario;
 import com.fiap.parquimetro.exceptions.DuplicateCpfException;
 import com.fiap.parquimetro.exceptions.DuplicateEmailException;
 import com.fiap.parquimetro.exceptions.RecursoNaoEncontradoException;
 import com.fiap.parquimetro.mapper.UsuarioMapper;
 import com.fiap.parquimetro.repositories.UsuarioRepository;
+import com.fiap.parquimetro.util.EmailUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,7 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
 
     private final VeiculoService veiculoService;
+    private final NotificacaoService notificacaoService;
 
     public List<UsuarioDTO> listarTodos() {
         List<Usuario> usuarios = this.usuarioRepository.findAll();
@@ -43,6 +44,10 @@ public class UsuarioService {
                 throw new DuplicateEmailException("Email já existe no banco de dados");
             } else {
                 Usuario usuario = UsuarioMapper.toEntity(usuarioDTO);
+                notificacaoService.enviarNotificacao(usuario,
+                        EmailUtils.bodyCadastroUsuario(usuario),
+                        EmailUtils.subjectCadastroUsuario);
+
                 return UsuarioMapper.toDTO(usuarioRepository.save(usuario));
             }
         }

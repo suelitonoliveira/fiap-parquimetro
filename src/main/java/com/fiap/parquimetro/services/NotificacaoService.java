@@ -2,6 +2,7 @@ package com.fiap.parquimetro.services;
 
 import com.fiap.parquimetro.entities.Notificacao;
 import com.fiap.parquimetro.entities.Sessao;
+import com.fiap.parquimetro.entities.Usuario;
 import com.fiap.parquimetro.enums.TipoNotificacao;
 import com.fiap.parquimetro.repositories.NotificacaoRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,10 @@ public class NotificacaoService {
                         .build();
         notificacaoRepository.save(notificacao);
         mailSenderService.sendEmail(sessao.getUsuario().getEmail(), assunto, mensagem);
+    }
+
+    public void enviarNotificacao(Usuario usuario, String mensagem, String assunto) {
+        mailSenderService.sendEmail(usuario.getEmail(), assunto, mensagem);
     }
 }
 
