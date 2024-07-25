@@ -11,6 +11,7 @@ public class VeiculoMapper {
     public static VeiculoDto toDTO(Veiculo veiculo) {
         return VeiculoDto
                 .builder()
+                .usuarioId(veiculo.getUsuario().getUsuarioId())
                 .id(veiculo.getId())
                 .marca(veiculo.getMarca())
                 .modelo(veiculo.getModelo())
