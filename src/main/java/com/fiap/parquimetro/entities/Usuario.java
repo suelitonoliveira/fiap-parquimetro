@@ -25,10 +25,6 @@ public class Usuario extends Auditoria {
     @Column(name = "NOME", nullable = false)
     private String nome;
 
-    @OneToOne
-    @JoinColumn(name = "COD_ENDERECO", nullable = false)
-    private Endereco endereco;
-
     @Column(name = "CPF", nullable = false, unique = true)
     private String cpf;
 

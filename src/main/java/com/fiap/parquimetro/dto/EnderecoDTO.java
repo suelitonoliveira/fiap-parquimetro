@@ -41,5 +41,8 @@ public class EnderecoDTO {
     @Size(max = 8, message = "O campo cep deve ter no máximo 8 caracteres")
     private String cep;
 
+    @NotNull(message = "Campo codUsuario obrigatório")
+    private Long codUsuario;
+
 
 }

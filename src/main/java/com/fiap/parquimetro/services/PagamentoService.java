@@ -37,7 +37,7 @@ public class PagamentoService {
 
     @Transactional(rollbackOn = Exception.class)
     public PagamentoDTO realizarPagamento(@Valid PagamentoDTO pagamentoDTO) {
-        UsuarioDTO usuario = usuarioService.buscaUsuarioPorId(pagamentoDTO.getCodUsuario());
+        UsuarioDTO usuario = usuarioService.buscaUsuarioDtoPorId(pagamentoDTO.getCodUsuario());
         validarTipoUsuario(usuario.tipoUsuario);
         Sessao sessao =
                 sessaoRepository.findByIdAndUsuario_UsuarioId(pagamentoDTO.getCodSessao(), pagamentoDTO.getCodUsuario())

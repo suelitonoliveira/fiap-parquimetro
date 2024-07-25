@@ -1,8 +1,6 @@
 package com.fiap.parquimetro.services;
 
-import com.fiap.parquimetro.dto.EnderecoDTO;
 import com.fiap.parquimetro.dto.UsuarioDTO;
-import com.fiap.parquimetro.entities.Endereco;
 import com.fiap.parquimetro.entities.Usuario;
 import com.fiap.parquimetro.entities.Veiculo;
 import com.fiap.parquimetro.enums.TipoUsuario;
@@ -26,8 +24,6 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    private final EnderecoService enderecoService;
-
     private final VeiculoService veiculoService;
 
     public List<UsuarioDTO> listarTodos() {
@@ -46,21 +42,25 @@ public class UsuarioService {
             if (usuarioByEmail != null) {
                 throw new DuplicateEmailException("Email já existe no banco de dados");
             } else {
-                Endereco endereco = enderecoService.buscarEnderecoPorId(usuarioDTO.getUsuarioId());
                 List<Veiculo> veiculos = veiculoService.listarPorCpfUsuario(usuarioDTO.getCpf());
                 if (veiculos.isEmpty()) {
                     throw new RecursoNaoEncontradoException("Não há veículo cadastrado para esse usuário!");
                 }
-                Usuario usuario = UsuarioMapper.toEntity(usuarioDTO, endereco, veiculos);
+                Usuario usuario = UsuarioMapper.toEntity(usuarioDTO, veiculos);
                 return UsuarioMapper.toDTO(usuarioRepository.save(usuario));
             }
         }
 
     }
 
-    public UsuarioDTO buscaUsuarioPorId(Long id) {
+    public UsuarioDTO buscaUsuarioDtoPorId(Long id) {
         return this.usuarioRepository.findById(id)
                 .map(UsuarioMapper::toDTO)
+                .orElseThrow(() -> new RecursoNaoEncontradoException(String.format("Usuario com cod:%d não encontrado", id)));
+    }
+
+    public Usuario buscaUsuarioPorId(Long id) {
+        return this.usuarioRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException(String.format("Usuario com cod:%d não encontrado", id)));
     }
 
@@ -74,9 +74,7 @@ public class UsuarioService {
         return usuarios.stream().map(UsuarioMapper::toDTO).toList();
     }
 
-    public EnderecoDTO cadastrarEndereco(EnderecoDTO enderecoDTO) {
-        return this.enderecoService.cadastrar(enderecoDTO);
-    }
+
 }
 
 

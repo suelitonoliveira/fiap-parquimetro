@@ -20,9 +20,6 @@ public class UsuarioDTO {
     @NotBlank(message = "Campo nome obrigatório")
     private String nome;
 
-    @NotBlank(message = "Campo codEndereco obrigatório")
-    private Long codEndereco;
-
     @NotBlank(message = "Campo cpf obrigatório")
     @CPF
     private String cpf;

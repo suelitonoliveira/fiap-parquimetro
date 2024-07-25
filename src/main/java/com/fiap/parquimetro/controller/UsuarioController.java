@@ -1,6 +1,5 @@
 package com.fiap.parquimetro.controller;
 
-import com.fiap.parquimetro.dto.EnderecoDTO;
 import com.fiap.parquimetro.dto.UsuarioDTO;
 import com.fiap.parquimetro.services.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,7 +26,7 @@ public class UsuarioController {
     @Operation(summary = "Busca Usuario por Id", tags = "Usuário")
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDTO> buscaUsuarioPorId(@PathVariable Long id) {
-        UsuarioDTO usuarioDTO = usuarioService.buscaUsuarioPorId(id);
+        UsuarioDTO usuarioDTO = usuarioService.buscaUsuarioDtoPorId(id);
         return ResponseEntity.ok(usuarioDTO);
     }
 
@@ -45,11 +44,5 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarios);
     }
 
-    @Operation(summary = "Cadastra Endereço para um usuario", tags = "Usuário")
-    @PostMapping("/endereco")
-    public ResponseEntity<EnderecoDTO> cadastrarEndereco(@RequestBody EnderecoDTO enderecoDTO) {
-        EnderecoDTO enderecoUsuario = usuarioService.cadastrarEndereco(enderecoDTO);
-        return ResponseEntity.ok(enderecoUsuario);
-    }
 
 }

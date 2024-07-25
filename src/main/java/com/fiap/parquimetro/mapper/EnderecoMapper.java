@@ -2,9 +2,10 @@ package com.fiap.parquimetro.mapper;
 
 import com.fiap.parquimetro.dto.EnderecoDTO;
 import com.fiap.parquimetro.entities.Endereco;
+import com.fiap.parquimetro.entities.Usuario;
 
 public class EnderecoMapper {
-    public static Endereco toEntity(EnderecoDTO enderecoDTO) {
+    public static Endereco toEntity(EnderecoDTO enderecoDTO, Usuario usuario) {
         return Endereco
                 .builder()
                 .logradouro(enderecoDTO.getLogradouro())
@@ -13,6 +14,7 @@ public class EnderecoMapper {
                 .cidade(enderecoDTO.getCidade())
                 .estado(enderecoDTO.getEstado())
                 .cep(enderecoDTO.getCep())
+                .usuario(usuario)
                 .build();
     }
 
@@ -26,6 +28,7 @@ public class EnderecoMapper {
                 .cidade(endereco.getCidade())
                 .estado(endereco.getEstado())
                 .cep(endereco.getCep())
+                .codUsuario(endereco.getUsuario().getUsuarioId())
                 .build();
     }
 }

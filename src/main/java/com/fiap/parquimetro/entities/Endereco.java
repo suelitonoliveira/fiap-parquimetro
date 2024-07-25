@@ -36,4 +36,8 @@ public class Endereco extends Auditoria {
     @Column(name = "CEP", nullable = false, length = 8)
     private String cep;
 
+    @OneToOne
+    @JoinColumn(name = "COD_USUARIO", nullable = false)
+    private Usuario usuario;
+
 }

@@ -1,5 +1,6 @@
 package com.fiap.parquimetro.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +30,7 @@ public class Veiculo {
 
     @ManyToOne
     @JoinColumn(name="CONDUTOR_ID", nullable = false)
+    @JsonIgnore
     private Usuario usuario;
 
 }
