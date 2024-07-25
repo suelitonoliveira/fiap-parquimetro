@@ -31,8 +31,8 @@ public class ParquimetroService {
         List<Veiculo> listaVeiculo = veiculoService.listarPorCpfUsuario(usuario.getCpf());
         ;
         Parquimetro novoParquimetro = parquimetroRepository.findByNumeroSerieIgnoreCase(parquimetroDTO.getNumeroSerie())
-                .map(parquimetroExistente -> ParquimetroMapper.updateEntity(parquimetroExistente, parquimetroDTO, usuario, listaVeiculo))
-                .orElseGet(() -> ParquimetroMapper.toEntity(parquimetroDTO, usuario, listaVeiculo));
+                .map(parquimetroExistente -> ParquimetroMapper.updateEntity(parquimetroExistente, parquimetroDTO, usuario))
+                .orElseGet(() -> ParquimetroMapper.toEntity(parquimetroDTO, usuario));
         return ParquimetroMapper.toDTO(parquimetroRepository.save(novoParquimetro));
     }
 

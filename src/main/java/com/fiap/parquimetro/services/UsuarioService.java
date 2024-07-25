@@ -42,11 +42,7 @@ public class UsuarioService {
             if (usuarioByEmail != null) {
                 throw new DuplicateEmailException("Email já existe no banco de dados");
             } else {
-                List<Veiculo> veiculos = veiculoService.listarPorCpfUsuario(usuarioDTO.getCpf());
-                if (veiculos.isEmpty()) {
-                    throw new RecursoNaoEncontradoException("Não há veículo cadastrado para esse usuário!");
-                }
-                Usuario usuario = UsuarioMapper.toEntity(usuarioDTO, veiculos);
+                Usuario usuario = UsuarioMapper.toEntity(usuarioDTO);
                 return UsuarioMapper.toDTO(usuarioRepository.save(usuario));
             }
         }

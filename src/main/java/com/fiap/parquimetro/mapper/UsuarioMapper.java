@@ -8,14 +8,13 @@ import com.fiap.parquimetro.entities.Veiculo;
 import java.util.List;
 
 public class UsuarioMapper {
-    public static Usuario toEntity(UsuarioDTO dto, List<Veiculo> veiculos) {
+    public static Usuario toEntity(UsuarioDTO dto) {
         Usuario usuario = new Usuario();
         usuario.setUsuarioId(dto.getUsuarioId());
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
         usuario.setCpf(dto.getCpf());
         usuario.setTelefone(dto.getTelefone());
-        usuario.setVeiculos(veiculos);
         usuario.setTipoUsuario(dto.getTipoUsuario());
         return usuario;
     }
