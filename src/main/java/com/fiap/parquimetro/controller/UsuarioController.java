@@ -3,6 +3,7 @@ package com.fiap.parquimetro.controller;
 import com.fiap.parquimetro.dto.UsuarioDTO;
 import com.fiap.parquimetro.services.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class UsuarioController {
 
     @Operation(summary = "Cadastra Novo Usuário", tags = "Usuário")
     @PostMapping
-    public ResponseEntity<UsuarioDTO> cadastrar(@RequestBody UsuarioDTO usuarioDTO) {
+    public ResponseEntity<UsuarioDTO> cadastrar(@RequestBody @Valid UsuarioDTO usuarioDTO) {
         UsuarioDTO cadastrarUsuario = usuarioService.salvar(usuarioDTO);
         return ResponseEntity.ok(cadastrarUsuario);
     }
