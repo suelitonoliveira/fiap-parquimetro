@@ -123,7 +123,7 @@ CREATE TABLE parquimetro.tb_notificacao
     data_de_alteracao TIMESTAMP WITHOUT TIME ZONE,
     secao_id          BIGINT                                  NOT NULL,
     tipo_notificacao  VARCHAR(255)                            NOT NULL,
-    mensagem          VARCHAR(255)                            NOT NULL,
+    mensagem          TEXT                            NOT NULL,
     data_envio        TIMESTAMP WITHOUT TIME ZONE             NOT NULL,
     CONSTRAINT pk_tb_notificacao PRIMARY KEY (cod)
 );
